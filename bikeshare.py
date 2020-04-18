@@ -33,13 +33,13 @@ def get_filters():
             print("You have not entered a valid city. Please re-enter.")
         else:
             break
-            
+
     # get user input for month (all, january, february, ... , june)
     while True:
         try:
             month = str(input("Enter month name (all or anything in between january-june):")).lower()
             if month not in {'all','january', 'february', 'march', 'april', 'may', 'june'}:
-                raise Exception                          
+                raise Exception
         except Exception:
             print("You have not entered a valid month. Please re-enter.")
         else:
@@ -50,7 +50,7 @@ def get_filters():
         try:
             day = str(input("Enter day of the week (all or any day of the week(eg: monday,tuesday..):")).lower()
             if day not in {'all','sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'}:
-                raise Exception                          
+                raise Exception
         except Exception:
             print("You have not entered a valid weekday name. Please re-enter.")
         else:
@@ -75,7 +75,7 @@ def load_data(city, month, day):
     """
     # load data file into a dataframe
     df =  pd.read_csv(CITY_DATA[city])
-    
+
 
     # convert the Start Time column to datetime
     df['Start Time'] = pd.to_datetime(df['Start Time'])
@@ -89,7 +89,7 @@ def load_data(city, month, day):
     df['hour'] = df['Start Time'].dt.hour
     #create new column concatenating start and end stations
     df['common_station'] = df['Start Station'] + ' → ' + df['End Station']
-       
+
 
     # filter by month if applicable
     if month != 'all':
@@ -115,17 +115,16 @@ def time_stats(df):
 
     # display the most common month
     print('\nThe most common month is:  ')
-    
-    
+
+
     # display the most common month as month name
     common_month = df['month'].mode()[0]
     d = datetime.datetime(1,common_month,1)
     print(d.strftime('%B'))
 
     # display the most common day of week
-    print('\nThe most common day of week is:  ')
     common_day = df['day_of_week'].mode()[0]
-    print(common_day)
+    print('\nThe most common day of week is:  ' + common_day)
 
     # display the most common start hour as hour
     print('\nThe most common start hour is:  ')
@@ -172,7 +171,7 @@ def trip_duration_stats(df):
 
     print('\nCalculating Trip Duration...\n')
     start_time = time.time()
-    
+
     # display total travel time in seconds, minutes, hours, and days
     print('Total duration in seconds is:  ',df['Trip Duration'].sum())
     print('Total duration in minutes is:  ',df['Trip Duration'].sum()/60)
@@ -181,7 +180,7 @@ def trip_duration_stats(df):
 
 
     # display mean travel time in seconds and minutes
-    
+
     print('The mean duration in seconds is:  ',df['Trip Duration'].mean())
     print('The mean duration in minutes is:  ',df['Trip Duration'].mean()/60)
 
@@ -205,7 +204,7 @@ def user_stats(df):
         sex = df.groupby(['Gender'])['Gender'].count()
         print('The distribution of Gender is:\n'+ sex.to_string(header=None))
         print('The count of null values for Gender field is:  ',df['Gender'].isnull().sum())
-        
+
     else:
         print('Cannot display information:  Gender field does not exist\n')
 
@@ -218,10 +217,10 @@ def user_stats(df):
         print('\nThe earliest Birth Year is:  ',str(df['Birth Year'].min()).split('.')[0])
         print('\nThe most recent Birth Year is:  ',str(df['Birth Year'].max()).split('.')[0])
         print('\nThe most common Birth Year is:  ',str(df['Birth Year'].mode()[0]).split('.')[0])
-        
+
     else:
         print('Cannot display information:  Birth Year field does not exist')
-    
+
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
@@ -230,37 +229,37 @@ def main():
     while True:
         city, month, day = get_filters()
         df = load_data(city, month, day)
-    
+
         time_stats(df)
         station_stats(df)
         trip_duration_stats(df)
         user_stats(df)
-        
-        # Display next five rows of data in the data frame 
+
+        # Display next five rows of data in the data frame
         i = 0
         j = 5
 
-               
+
         def displaydata(df):
             for i,j in df.iloc[i:j]:
                 i = 0
                 j = 5
                 return df
-                
+
         while True:
             display2 = input("\n Would you like to view the next five rows of the data? Please write 'yes' or 'no' \n").lower()
             if display2.lower() == 'no':
                 break
             if display2 not in ("yes","no"):
-                
+
                 print("Invalid entry; please enter yes or no\n")
-                
+
             if display2.lower() == 'yes':
                 print(df.iloc[i:j].copy())
                 i = i + 5
                 j = j + 5
-         
-        # Do you want to restart "explore bikeshare data" request 
+
+        # Do you want to restart "explore bikeshare data" request
         restart = input('\nWould you like to restart? Enter yes or no.\n')
         if restart.lower() != 'yes':
             break
@@ -285,7 +284,3 @@ if __name__ == "__main__":
 
 
 # In[ ]:
-
-
-
-
