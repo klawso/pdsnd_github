@@ -54,8 +54,7 @@ def get_filters():
             print("You have not entered a valid weekday name. Please re-enter.")
         else:
             break
-    print('You entered:  \n')
-    print(city.title() + ", " + month.title() + ", and " + day.title())
+    print('You entered:  \n' + city.title() + ", " + month.title() + ", and " + day.title())
     print('-'*40)
     return city, month, day
 
@@ -121,9 +120,8 @@ def time_stats(df):
     print(d.strftime('%B'))
 
     # display the most common day of week
-    print('\nThe most common day of week is:  ')
     common_day = df['day_of_week'].mode()[0]
-    print(common_day)
+    print('\nThe most common day of week is:  ' + common_day)
 
     # display the most common start hour as hour
     print('\nThe most common start hour is:  ')
