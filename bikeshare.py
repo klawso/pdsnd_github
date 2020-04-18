@@ -55,8 +55,7 @@ def get_filters():
             print("You have not entered a valid weekday name. Please re-enter.")
         else:
             break
-    print('You entered:  \n')
-    print(city.title() + ", " + month.title() + ", and " + day.title())
+    print('You entered:  \n' + city.title() + ", " + month.title() + ", and " + day.title())
     print('-'*40)
     return city, month, day
 
